@@ -1,4 +1,12 @@
 import { signOut } from '../utils/auth';
+import { getBooks, booksOnSale } from '../api/bookData';
+import { getAuthors, getFavoriteAuthors } from '../api/authorData';
+import { showBooks } from '../pages/books';
+import { showAuthors, emptyAuthors } from '../pages/authors';
+// import {
+//   getBooks, createBook, booksOnSale, deleteBook, getSingleBook, updateBook
+// } from '../api/bookData';
+// import { showBooks, emptyBooks } from '../pages/books';
 
 // navigation events
 const navigationEvents = () => {
@@ -8,12 +16,12 @@ const navigationEvents = () => {
 
   // TODO: BOOKS ON SALE
   document.querySelector('#sale-books').addEventListener('click', () => {
-    console.warn('CLICKED SALE BOOKS');
+    booksOnSale().then(showBooks);
   });
 
   // TODO: ALL BOOKS
   document.querySelector('#all-books').addEventListener('click', () => {
-    console.warn('CLICKED ALL BOOKS');
+    getBooks().then(showBooks);
   });
 
   // FIXME: STUDENTS Create an event listener for the Authors
@@ -21,7 +29,19 @@ const navigationEvents = () => {
   // 2. Convert the response to an array because that is what the makeAuthors function is expecting
   // 3. If the array is empty because there are no authors, make sure to use the emptyAuthor function
   document.querySelector('#authors').addEventListener('click', () => {
-    console.warn('CLICKED AUTHORS');
+    getAuthors().then((response) => {
+      const authors = response ? Object.values(response) : []; // Convert response to an array
+      if (authors.length === 0) {
+        emptyAuthors(); // Show "No Authors" message if list is empty
+      } else {
+        showAuthors(authors); // Display authors
+      }
+    }).catch((error) => console.error('Error fetching authors:', error));
+  });
+
+  // favorite authors
+  document.querySelector('#fav-authors').addEventListener('click', () => {
+    getFavoriteAuthors().then(showAuthors);
   });
 
   // STRETCH: SEARCH

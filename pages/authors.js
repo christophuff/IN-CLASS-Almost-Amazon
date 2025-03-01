@@ -18,12 +18,12 @@ const showAuthors = (array) => {
     domString += `
     <div class="card" style="width: 18rem;">
       <div class="card-body">
-        <h5 class="card-title">${item.first_name} ${item.last_name}</h5>
+        <h5 class="card-title">${item.favorite ? '<i class="fa-solid fa-star"></i>' : ''} ${item.first_name} ${item.last_name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">${item.email}</h6>
         <hr>
-        <i class="btn btn-success fas fa-eye" id="view-author-btn--${item.firebaseKey}"></i>
-        <i class="fas fa-edit btn btn-info" id="update-author--${item.firebaseKey}"></i>
-        <i class="btn btn-danger fas fa-trash-alt" id="delete-author-btn--${item.firebaseKey}"></i>
+        <button class="btn btn-success"><i class="fa-solid fa-eye" id="view-author-btn--${item.firebaseKey}"></i></button>
+        <button class="btn btn-info"><i class="fa-solid fa-edit" id="update-author--${item.firebaseKey}"></i></button>
+        <button class="btn btn-danger"><i class="fa-solid fa-trash-alt" id="delete-author-btn--${item.firebaseKey}"></i></button>
       </div>
     </div>
     `;
