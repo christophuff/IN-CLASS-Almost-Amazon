@@ -81,6 +81,31 @@ body {
       margin: 0 auto;
     }
   }
+  
+  #author-books {
+    width: 90%;
+    display: flex;
+    flex-flow: row wrap;
+    text-align: center;
+    margin: auto;
+    justify-content: center;
+
+    .card {
+      width: 300px;
+      margin: 5px;
+    }
+
+    .card-body {
+      min-height: 400px;
+    }
+
+    .btn {
+      position: absolute;
+      bottom: 0;
+      right: 33%;
+      margin: 10px 0;
+    }
+  }
 }
 
 #view {
@@ -99,4 +124,5 @@ body {
 
 .fa-star {
   color: rgb(206, 206, 30);
+  cursor: pointer;
 }

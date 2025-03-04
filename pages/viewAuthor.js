@@ -17,10 +17,10 @@ const viewAuthor = (obj) => {
       <hr>
   
       <h3 class="mt-4 text-center text-white">Books by ${obj.first_name}:</h3>
-      <div id="author-books" class="d-flex flex-wrap align-items-center">
+      <div id="author-books">
         ${obj.books.length > 0 ? obj.books.map((book) => `
-          <div class="card m-2" style="width: 18rem;">
-            <img src="${book.image}" class="card-img-top" alt="${book.title}">
+          <div class="card">
+            <img class="card-img-top" src=${book.image} alt=${book.title} style="height: 400px;">
             <div class="card-body">
               <h5 class="card-title">${book.title}</h5>
               <p class="card-text">${book.description || 'No description available.'}</p>
