@@ -83,8 +83,8 @@ const updateAuthor = (payload) => new Promise((resolve, reject) => {
 });
 
 // TODO: GET A SINGLE AUTHOR'S BOOKS
-const getAuthorBooks = (authorId) => new Promise((resolve, reject) => {
-  fetch(`${endpoint}/books.json?orderBy="author_id"&equalTo="${authorId}"`, {
+const getAuthorBooks = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json?orderBy="author_id"&equalTo="${firebaseKey}"`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -95,6 +95,20 @@ const getAuthorBooks = (authorId) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
+// STRETCH GOAL: TOGGLE FAVORITE AUTHOR
+const toggleFavorite = (firebaseKey, currentStatus) => new Promise((resolve, reject) => {
+  const updatedStatus = !currentStatus; // Toggle the boolean value
+
+  fetch(`${endpoint}/authors/${firebaseKey}.json`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ favorite: updatedStatus }),
+  })
+    .then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
 export {
   getAuthors,
   createAuthor,
@@ -102,5 +116,6 @@ export {
   deleteSingleAuthor,
   updateAuthor,
   getAuthorBooks,
-  getFavoriteAuthors
+  getFavoriteAuthors,
+  toggleFavorite
 };

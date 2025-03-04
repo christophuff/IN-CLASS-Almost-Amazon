@@ -1,10 +1,10 @@
 import clearDom from '../../utils/clearDom';
 import renderToDOM from '../../utils/renderToDom';
 
-const addAuthorForm = (obj) => {
+const addAuthorForm = (obj = {}) => {
   clearDom();
   const domString = `
-    <form id="${obj.firebaseKey ? `update-book--${obj.firebaseKey}` : 'submit-book'}" class="mb-4">
+    <form id="${obj.firebaseKey ? `update-author--${obj.firebaseKey}` : 'submit-author'}" class="mb-4">
       <div class="form-group">
         <label for="image">First Name</label>
         <input type="text" class="form-control" id="first_name" placeholder="First Name" value="${obj.first_name || ''}" required>

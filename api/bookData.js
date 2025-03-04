@@ -85,11 +85,42 @@ const booksOnSale = () => new Promise((resolve, reject) => {
 
 // TODO: STRETCH...SEARCH BOOKS
 
+const searchBooks = (e) => new Promise((resolve, reject) => {
+  const userInput = e.target.value.toLowerCase();
+
+  fetch(`${endpoint}/books.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((bookData) => {
+      if (!bookData) {
+        resolve([]); // Resolve with empty array if no data
+        return;
+      }
+
+      // Convert Firebase Object into an array
+      const booksArray = Object.keys(bookData).map((key) => ({
+        firebaseKey: key,
+        ...bookData[key],
+      }));
+
+      // Filter books based on title or description
+      const searchResult = booksArray.filter((book) => book.title.toLowerCase().includes(userInput) || book.description.toLowerCase().includes(userInput));
+
+      resolve(searchResult); // Resolve with filtered results
+    })
+    .catch(reject);
+});
+
 export {
   getBooks,
   createBook,
   booksOnSale,
   deleteBook,
   getSingleBook,
-  updateBook
+  updateBook,
+  searchBooks
 };
