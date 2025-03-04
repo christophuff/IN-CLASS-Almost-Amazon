@@ -19,7 +19,7 @@ const showAuthors = (array) => {
     <div class="card" style="width: 18rem;">
       <div class="card-body">
         <h5 class="card-title">${item.favorite ? '<i class="fa-solid fa-star"></i>' : ''} ${item.first_name} ${item.last_name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">${item.email}</h6>
+        <h6 class="card-subtitle mb-2 text-muted"><a href="mailto:${item.email}">${item.email}</a></h6>
         <hr>
         <button class="btn btn-success"><i class="fa-solid fa-eye" id="view-author-btn--${item.firebaseKey}"></i></button>
         <button class="btn btn-info"><i class="fa-solid fa-edit" id="update-author--${item.firebaseKey}"></i></button>
