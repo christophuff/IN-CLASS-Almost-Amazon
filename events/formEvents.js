@@ -1,3 +1,5 @@
+import 'firebase/auth';
+import firebase from 'firebase/app';
 import { createAuthor, getAuthors, updateAuthor } from '../api/authorData';
 import { updateBook, createBook, getBooks } from '../api/bookData';
 import { showAuthors } from '../pages/authors';
@@ -8,20 +10,23 @@ const formEvents = () => {
     e.preventDefault();
     // TODO: CLICK EVENT FOR SUBMITTING FORM FOR ADDING A BOOK
     if (e.target.id.includes('submit-book')) {
-      const payload = {
-        title: document.querySelector('#title').value,
-        description: document.querySelector('#description').value,
-        image: document.querySelector('#image').value,
-        price: document.querySelector('#price').value,
-        author_id: document.querySelector('#author_id').value,
-        sale: document.querySelector('#sale').checked,
-      };
+      firebase.auth().onAuthStateChanged((user) => {
+        const payload = {
+          uid: user.uid,
+          title: document.querySelector('#title').value,
+          description: document.querySelector('#description').value,
+          image: document.querySelector('#image').value,
+          price: document.querySelector('#price').value,
+          author_id: document.querySelector('#author_id').value,
+          sale: document.querySelector('#sale').checked,
+        };
 
-      createBook(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
+        createBook(payload).then(({ name }) => {
+          const patchPayload = { firebaseKey: name };
 
-        updateBook(patchPayload).then(() => {
-          getBooks().then(showBooks);
+          updateBook(patchPayload).then(() => {
+            getBooks(user.uid).then(showBooks);
+          });
         });
       });
     }
@@ -40,23 +45,28 @@ const formEvents = () => {
       };
 
       updateBook(payload).then(() => {
-        getBooks().then(showBooks);
+        firebase.auth().onAuthStateChanged((user) => {
+          getBooks(user.uid).then(showBooks);
+        });
       });
     }
 
     // FIXME: ADD CLICK EVENT FOR SUBMITTING FORM FOR ADDING AN AUTHOR
     if (e.target.id.includes('submit-author')) {
-      const payload = {
-        first_name: document.querySelector('#first_name').value,
-        last_name: document.querySelector('#last_name').value,
-        email: document.querySelector('#email').value,
-      };
+      firebase.auth().onAuthStateChanged((user) => {
+        const payload = {
+          uid: user.uid,
+          first_name: document.querySelector('#first_name').value,
+          last_name: document.querySelector('#last_name').value,
+          email: document.querySelector('#email').value,
+        };
 
-      createAuthor(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
+        createAuthor(payload).then(({ name }) => {
+          const patchPayload = { firebaseKey: name };
 
-        updateAuthor(patchPayload).then(() => {
-          getAuthors().then(showAuthors);
+          updateAuthor(patchPayload).then(() => {
+            getAuthors(user.uid).then(showAuthors);
+          });
         });
       });
     }
@@ -71,7 +81,9 @@ const formEvents = () => {
       };
 
       updateAuthor(payload).then(() => {
-        getAuthors().then(showAuthors);
+        firebase.auth().onAuthStateChanged((user) => {
+          getAuthors(user.uid).then(showAuthors);
+        });
       });
     }
   });
